@@ -102,6 +102,12 @@ static int bat_num_start = 0;
 static int bat_num_len = 0;
 static int percent_start = 0;
 
+// Function to scale input from one range to another
+double scaleValue(double inputValue, double inputMin, double inputMax, double outputMin, double outputMax) {
+    double scaledValue = ((inputValue - inputMin) / (inputMax - inputMin)) * (outputMax - outputMin) + outputMin;
+	return (int)scaledValue; // Cast the result to an integer
+}
+
 static tai_hook_ref_t ref_hook0;
 static int status_draw_time_patched(void *a1, int a2)
 {
@@ -125,7 +131,8 @@ static uint16_t **some_strdup_patched(uint16_t **a1, uint16_t *a2, int a2_size)
     if (in_draw_time) {
         static int oldpercent = 0;
         int percent = scePowerGetBatteryLifePercent();
-        if (percent < 0 || percent > 100) {
+		percent = scaleValue(percent, 0, 83, 0, 100); //Scale the IRS-1001 motherboard battery readout to 100%
+        if (percent < 0 || percent > (100)) {
             percent = oldpercent;
         }
         oldpercent = percent;
