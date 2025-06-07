@@ -65,6 +65,12 @@ static void get_functions_retail_365_368()
     scePafWidgetSetFontSize = (void*) text_addr + 0x45D2C8;
 }
 
+static void get_functions_retail_369_373()
+{
+    scePafWidgetSetFontSize = (void*) text_addr + 0x45D2E8;
+}
+
+
 static void get_functions_testkit_360()
 {
     scePafWidgetSetFontSize = (void*) text_addr + 0x453038;
@@ -205,6 +211,17 @@ int module_start(SceSize argc, const void *args)
         offsets[1] = 0x40E4FC;
         get_functions_retail_365_368();
         break;
+	    
+   case 0x0703C828: // retail 3.69 SceShell
+   case 0x2053B5A5: // retail 3.70 SceShell
+   case 0xF476E785: // retail 3.71 SceShell
+   case 0x939FFBE9: // retail 3.72 SceShell
+   case 0x734D476A: // retail 3.73 SceShell
+       offsets[0] = 0x183F6C;
+       offsets[1] = 0x40E520;
+       get_functions_retail_369_373();
+       break;
+
 
     case 0xEAB89D5C: // PTEL 3.60 SceShell
         offsets[0] = 0x17C2D8;
