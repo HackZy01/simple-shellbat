@@ -131,7 +131,7 @@ static uint16_t **some_strdup_patched(uint16_t **a1, uint16_t *a2, int a2_size)
     if (in_draw_time) {
         static int oldpercent = 0;
         int percent = scePowerGetBatteryLifePercent();
-		percent = scaleValue(percent, 0, 83, 0, 100); //Scale the IRS-1001 motherboard battery readout to 100%
+		percent = scaleValue(percent, 13, 83, 1, 100); //Scale the IRS-1001 motherboard battery readout to 100%
         if (percent < 0 || percent > (100)) {
             percent = oldpercent;
         }
