@@ -25,6 +25,7 @@
 #include <psp2/kernel/modulemgr.h>
 #include <psp2/kernel/processmgr.h>
 #include <psp2/kernel/clib.h>
+#include <psp2/shellutil.h>
 #include <psp2/power.h>
 #include <taihen.h>
 
@@ -136,6 +137,14 @@ static int status_draw_time_patched(void *a1, int a2)
 	else if (!is_charging && was_charging) {
 	    scePafWidgetSetFontSize(a1, 22.0f, 1, bat_num_start, bat_num_len);
 	    scePafWidgetSetFontSize(a1, 18.0f, 1, percent_start, 1);
+ 	   // Charging estimate
+	   int percent = scePowerGetBatteryLifePercent();
+	   float hours_remaining = (100 - percent) * 0.022f;
+	   int hrs = (int)hours_remaining;
+	   int mins = (int)((hours_remaining - hrs) * 60.0f);
+	   char msg[64];
+	   sceClibSnprintf(msg, sizeof(msg), "Charging: %dh %dm remaining", hrs, mins);
+	   sceShellUtilNotifyMessage(0, msg);
 	}
 	was_charging = is_charging;
     }
