@@ -139,8 +139,6 @@ static int status_draw_time_patched(void *a1, int a2)
     return out;
 }
 
-was_charging = is_charging;
-
 static tai_hook_ref_t ref_hook1;
 static uint16_t **some_strdup_patched(uint16_t **a1, uint16_t *a2, int a2_size)
 {
