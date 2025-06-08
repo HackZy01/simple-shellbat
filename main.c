@@ -131,8 +131,7 @@ static int status_draw_time_patched(void *a1, int a2)
 
         int is_charging = scePowerIsBatteryCharging();
         if (is_charging && !was_charging) {
-            scePafWidgetSetFontSize(a1, 23.0f, 1, bat_num_start, bat_num_len);
-            scePafWidgetSetFontSize(a1, 19.0f, 1, percent_start, 1);
+            scePafWidgetSetFontSize(a1, 16.0f, 1, bat_num_start, bat_num_len);
         }
         was_charging = is_charging;
     }
