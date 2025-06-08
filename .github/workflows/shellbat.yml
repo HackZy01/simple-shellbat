@@ -31,6 +31,12 @@ jobs:
         ./bootstrap-vitasdk.sh
         ./install-all.sh
 
+        cd /usr/local/vitasdk
+        git clone https://github.com/vitasdk/vita-headers.git
+        cd vita-headers
+        make install
+
+
     - name: Build
       run: |
         mkdir build
