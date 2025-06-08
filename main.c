@@ -117,6 +117,7 @@ double scaleValue(double inputValue, double inputMin, double inputMax, double ou
 static tai_hook_ref_t ref_hook0;
 static int status_draw_time_patched(void *a1, int a2)
 {
+    static int was_charging = 0;
     in_draw_time = 1;
     int out = TAI_CONTINUE(int, ref_hook0, a1, a2);
     in_draw_time = 0;
@@ -127,9 +128,18 @@ static int status_draw_time_patched(void *a1, int a2)
         }
         scePafWidgetSetFontSize(a1, 20.0, 1, bat_num_start, bat_num_len);
         scePafWidgetSetFontSize(a1, 16.0, 1, percent_start, 1);
+
+        int is_charging = scePowerIsBatteryCharging();
+        if (is_charging && !was_charging) {
+            scePafWidgetSetFontSize(a1, 18.0f, 1, bat_num_start, bat_num_len);
+            scePafWidgetSetFontSize(a1, 14.0f, 1, percent_start, 1);
+        }
+        was_charging = is_charging;
     }
     return out;
 }
+
+was_charging = is_charging;
 
 static tai_hook_ref_t ref_hook1;
 static uint16_t **some_strdup_patched(uint16_t **a1, uint16_t *a2, int a2_size)
@@ -142,14 +152,9 @@ static uint16_t **some_strdup_patched(uint16_t **a1, uint16_t *a2, int a2_size)
             percent = oldpercent;
         }
         oldpercent = percent;
-        char buff[12];
-	int len;
-	if (scePowerIsBatteryCharging()) {
-	    len = sceClibSnprintf(buff, sizeof(buff), "  »%d%%", percent);
-	} else {
-	    len = sceClibSnprintf(buff, sizeof(buff), "  %d%%", percent);
-	}
-        for (int i = 0; i < len; ++i) {
+        char buff[10];
+        int len = sceClibSnprintf(buff, 10, "  %d%%", percent);
+	for (int i = 0; i < len; ++i) {
             a2[a2_size + i] = buff[i];
         }
         a2[a2_size + len] = 0;
