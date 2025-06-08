@@ -38,7 +38,6 @@ target_link_libraries(shellbat
   gcc
   ScePower_stub
   SceKernelModulemgr_stub
-  SceShellUtil_stub
 )
 
 set_target_properties(shellbat

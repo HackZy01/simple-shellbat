@@ -31,12 +31,6 @@ jobs:
         ./bootstrap-vitasdk.sh
         ./install-all.sh
 
-        cd /usr/local/vitasdk
-        git clone https://github.com/vitasdk/vita-headers.git
-        cd vita-headers
-        make install
-
-
     - name: Build
       run: |
         mkdir build
@@ -44,7 +38,7 @@ jobs:
         cmake .. -DCMAKE_TOOLCHAIN_FILE=/usr/local/vitasdk/share/vita.toolchain.cmake
         make
         
-    - name: Upload shellbat artifact
+    - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
         name: shellbat-suprx
