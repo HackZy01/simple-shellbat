@@ -142,8 +142,13 @@ static uint16_t **some_strdup_patched(uint16_t **a1, uint16_t *a2, int a2_size)
             percent = oldpercent;
         }
         oldpercent = percent;
-        char buff[10];
-        int len = sceClibSnprintf(buff, 10, "  %d%%", percent);
+        char buff[12];
+	int len;
+	if (scePowerIsBatteryCharging()) {
+	    len = sceClibSnprintf(buff, sizeof(buff), "  »%d%%", percent);
+	} else {
+	    len = sceClibSnprintf(buff, sizeof(buff), "  %d%%", percent);
+	}
         for (int i = 0; i < len; ++i) {
             a2[a2_size + i] = buff[i];
         }
